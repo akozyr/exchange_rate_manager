@@ -1,0 +1,14 @@
+version: '3'
+services:
+
+  nodejs:
+    build: .
+    ports:
+      - 80:8080
+      - 9229:9229
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - HOST=0.0.0.0
+    volumes:
+      - ./src:/usr/src/app

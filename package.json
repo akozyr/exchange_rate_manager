@@ -1,0 +1,11 @@
+{
+  "name": "exchange_rate_manager",
+  "version": "0.0.1",
+  "description": "Manager for Mastercard dollar exchange rate",
+  "author": "Anton Kozyr <anton.kozyr.dev@gmail.com>",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app/index.js"
+  },
+  "dependencies": {}
+}
