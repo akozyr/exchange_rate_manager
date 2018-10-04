@@ -1,28 +1,34 @@
 const request = require('request-promise')
 const cheerio = require('cheerio')
 
-const TODAY_DATE = new Date().toISOString().replace(/T.+/, '')
-const URI = `https://ferates.com/ajax/cards_table/mastercard/uah/${TODAY_DATE}`
+async function getUsdBidAndAskRate()
+{
+  const TODAY_DATE = new Date().toISOString().replace(/T.+/, '')
+  const MASTERCARD_USD_TO_UAH_URL = 'https://ferates.com/ajax/cards_table/mastercard/uah'
+  const URI = `${MASTERCARD_USD_TO_UAH_URL}/${TODAY_DATE}`
 
-const options = {
-  uri: URI,
-  headers: {
-    'X-Requested-With': 'XMLHttpRequest'
-  },
-  transform: function (body) {
-    const htmlBody = JSON.parse(body).table.all
+  const options = {
+    uri: URI,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    transform: function (body) {
+      const htmlBody = JSON.parse(body).table.all
 
-    return cheerio.load(htmlBody)
+      return cheerio.load(htmlBody)
+    }
+  }
+
+  try {
+    let $ = await request(options);
+
+    return parseBidAndAskRate($($('#usd')[0]))
+  } catch (err) {
+    throw err
   }
 }
 
-request(options).then($ => {
-  console.log(getUsdBidAndAsk($($('#usd')[0])))
-}).catch(error => {
-  console.log(error);
-})
-
-function getUsdBidAndAsk(jqueryRow)
+function parseBidAndAskRate(jqueryRow)
 {
   const result = {
     bid: jqueryRow.find('td.column_4 > .value').text().trim(),
@@ -31,4 +37,6 @@ function getUsdBidAndAsk(jqueryRow)
 
   return result
 }
+
+module.exports.getUsdBidAndAskRate = getUsdBidAndAskRate
 
