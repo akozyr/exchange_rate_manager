@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "Manager for Mastercard dollar exchange rate",
   "author": "Anton Kozyr <anton.kozyr.dev@gmail.com>",
-  "main": "index.js",
   "scripts": {
-    "start": "node app/index.js"
+    "start": "nodemon -L app.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
