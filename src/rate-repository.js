@@ -1,15 +1,16 @@
-const MONGO_URL = 'mongodb://mongo:27017/'
-const MONGO_DB = 'exchange_rate_db'
-
+const config = require('./config')
 const mongodb = require('mongodb')
-const client = new mongodb.MongoClient(MONGO_URL, { useNewUrlParser: true })
+
+function client() {
+  return new mongodb.MongoClient(config.MONGO_URL, { useNewUrlParser: true })
+}
 
 module.exports.findLast = function () {
   return new Promise((resolve, reject) => {
-    client.connect(function (err, client) {
+    client().connect(function (err, client) {
       if (err) reject(err)
 
-      const db = client.db(MONGO_DB)
+      const db = client.db(config.MONGO_DB)
       const where = { added: { $lte: new Date() } }
 
       db.collection('rates').findOne(where, function (err, result) {
@@ -25,10 +26,10 @@ module.exports.findLast = function () {
 
 module.exports.store = function (rate) {
   return new Promise((resolve, reject) => {
-    client.connect(function (err, client) {
+    client().connect(function (err, client) {
       if (err) reject(err)
 
-      const db = client.db(MONGO_DB)
+      const db = client.db(config.MONGO_DB)
       const rateModel = {
         bid: rate.bid,
         ask: rate.ask,

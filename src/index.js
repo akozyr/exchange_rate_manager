@@ -4,6 +4,10 @@ const rateEmailSender = require('./rate-email-sender')
 
 scraper.getUsdBidAndAskRate().then(syncedRate => {
   rateRepository.findLast().then(storedRate => {
+    if (!storedRate) {
+      return
+    }
+
     let rateChangingType = 0
     if (storedRate.bid < syncedRate.bid) {
       rateChangingType = 1
