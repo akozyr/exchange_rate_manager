@@ -8,12 +8,15 @@ client.connect(function (error) {
   console.log('Connected successfully to the mongodb server.')
 
   const db = client.db(dbName)
+  const ratesCollection = db.collection('rates')
 
-  db.collection('rates').insertOne({ bid: 28.08, ask: 28.20, added: new Date() }, function (err, result) {
-    db.collection('rates').find({}).toArray(function(err, docs) {
+  let added = new Date()
+  added.setDate(added.getDate() - 2)
+  ratesCollection.insertOne({ bid: 26.08, ask: 26.20, added: added }, function (err, result) {
+    ratesCollection.find({}).toArray(function(err, docs) {
       console.log(docs)
 
-      db.collection('rates').deleteMany({})
+      // ratesCollection.deleteMany({})
 
       client.close()
     })
