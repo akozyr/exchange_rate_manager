@@ -18,7 +18,7 @@ scraper.getUsdBidAndAskRate().then(syncedRate => {
     console.log(err)
   })
 
-  rateRepository.store(syncedRate).catch(err => {
+  rateRepository.updateOrInsert(syncedRate).catch(err => {
     console.log(err)
   })
 }).catch(err => {
