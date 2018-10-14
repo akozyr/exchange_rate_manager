@@ -2,25 +2,38 @@ const scraper = require('./scraper')
 const rateRepository = require('./rate-repository')
 const rateEmailSender = require('./rate-email-sender')
 
-scraper.getUsdBidAndAskRate().then(syncedRate => {
-  rateRepository.findLast().then(storedRate => {
-    if (!storedRate) {
-      return
-    }
+const CronJob = require('cron').CronJob
 
-    let rateChangingType = 0
-    if (storedRate.bid < syncedRate.bid) {
-      rateChangingType = 1
-    }
+const job = new CronJob({
+  cronTime: '00 24 14 * * *', // UTC timezone
+  onTick () {
+    console.log('Job is running...')
+    rateExchangeScraperJob()
+  },
+  start: true
+})
 
-    rateEmailSender.send(syncedRate, rateChangingType)
+function rateExchangeScraperJob() {
+  scraper.getUsdBidAndAskRate().then(syncedRate => {
+    rateRepository.findLast().then(storedRate => {
+      if (!storedRate) {
+        return
+      }
+
+      let rateChangingType = 0
+      if (storedRate.bid < syncedRate.bid) {
+        rateChangingType = 1
+      }
+
+      // rateEmailSender.send(syncedRate, rateChangingType)
+    }).catch(err => {
+      console.log(err)
+    })
+
+    rateRepository.updateOrInsert(syncedRate).catch(err => {
+      console.log(err)
+    })
   }).catch(err => {
     console.log(err)
   })
-
-  rateRepository.updateOrInsert(syncedRate).catch(err => {
-    console.log(err)
-  })
-}).catch(err => {
-  console.log(err)
-})
+}
