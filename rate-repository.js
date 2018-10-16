@@ -2,7 +2,11 @@ const config = require('./config')
 const mongodb = require('mongodb')
 
 function client() {
-  return new mongodb.MongoClient(config.MONGO_URL, { useNewUrlParser: true })
+  const mongoUrl = config.MONGO_URL
+    .replace('<dbuser>', config.MONGO_USER)
+    .replace('<dbpassword>', config.MONGO_PASS)
+
+  return new mongodb.MongoClient(mongoUrl, { useNewUrlParser: true })
 }
 
 module.exports.findLast = function () {
