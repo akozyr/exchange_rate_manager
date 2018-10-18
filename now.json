@@ -2,6 +2,8 @@
     "env": {
         "SENDGRID_APIKEY": "@sendgrid-apikey",
         "MONGO_URL": "@mongo-url",
-        "MONGO_DB": "@mongo-db"
+        "MONGO_DB": "@mongo-db",
+        "MONGO_USER": "@mongo-user",
+        "MONGO_PASS": "@mongo-pass"
     }
 }
