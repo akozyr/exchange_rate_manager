@@ -1,6 +1,6 @@
 {
   "name": "exchange_rate_manager",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Manager for Mastercard dollar exchange rate",
   "author": "Anton Kozyr <anton.kozyr.dev@gmail.com>",
   "scripts": {
