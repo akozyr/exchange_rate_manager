@@ -5,6 +5,7 @@ function client() {
   const mongoUrl = config.MONGO_URL
     .replace('<dbuser>', config.MONGO_USER)
     .replace('<dbpassword>', config.MONGO_PASS)
+    .replace('<dbname>', config.MONGO_DB)
 
   return new mongodb.MongoClient(mongoUrl, { useNewUrlParser: true })
 }
