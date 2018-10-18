@@ -5,7 +5,7 @@ const rateEmailSender = require('./rate-email-sender')
 const CronJob = require('cron').CronJob
 
 const job = new CronJob({
-  cronTime: '00 30 19 * * *', // UTC timezone
+  cronTime: '00 16 09 * * *', // UTC timezone
   onTick () {
     console.log('Job is running...')
     rateExchangeScraperJob()
