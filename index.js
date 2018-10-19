@@ -1,10 +1,10 @@
-const rateExchangeScraperJob = require('./rate-exchange-scraper-job')
-const config = require('./config')
 const CronJob = require('cron').CronJob
 const http = require('http')
+const rateExchangeScraperJob = require('./rate-exchange-scraper-job')
+const config = require('./config')
 
 const job = new CronJob({
-  cronTime: '00 30 19 * * *', // UTC timezone
+  cronTime: '00 30 20 * * *', // UTC timezone
   onTick () {
     console.log('Job is running...')
     rateExchangeScraperJob()

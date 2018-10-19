@@ -1,9 +1,10 @@
 const request = require('request-promise')
 const cheerio = require('cheerio')
+const moment = require('moment')
 
-async function getUsdBidAndAskRate()
+async function getRateInfo()
 {
-  const TODAY_DATE = new Date().toISOString().replace(/T.+/, '')
+  const TODAY_DATE = moment().format('YYYY-MM-DD')
   const MASTERCARD_USD_TO_UAH_URL = 'https://ferates.com/ajax/cards_table/mastercard/uah'
   const URI = `${MASTERCARD_USD_TO_UAH_URL}/${TODAY_DATE}`
 
@@ -22,13 +23,13 @@ async function getUsdBidAndAskRate()
   try {
     let $ = await request(options);
 
-    return parseBidAndAskRate($($('#usd')[0]))
+    return getParsedRateInfo($($('#usd')[0]))
   } catch (err) {
     throw err
   }
 }
 
-function parseBidAndAskRate(jqueryRow)
+function getParsedRateInfo(jqueryRow)
 {
   const result = {
     bid: jqueryRow.find('td.column_4 > .value').text().trim(),
@@ -38,5 +39,5 @@ function parseBidAndAskRate(jqueryRow)
   return result
 }
 
-module.exports.getUsdBidAndAskRate = getUsdBidAndAskRate
+module.exports.getRateInfo = getRateInfo
 
