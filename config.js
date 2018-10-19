@@ -6,5 +6,6 @@ module.exports = {
   MONGO_URL: process.env.MONGO_URL || 'url',
   MONGO_DB: process.env.MONGO_DB || 'db_name',
   MONGO_USER: process.env.MONGO_USER || 'user',
-  MONGO_PASS: process.env.MONGO_PASS || 'pass'
+  MONGO_PASS: process.env.MONGO_PASS || 'pass',
+  PORT: process.env.PORT || 3000
 }

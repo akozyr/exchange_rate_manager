@@ -1,8 +1,7 @@
-const scraper = require('./scraper')
-const rateRepository = require('./rate-repository')
-const rateEmailSender = require('./rate-email-sender')
-
+const rateExchangeScraperJob = require('./rate-exchange-scraper-job')
+const config = require('./config')
 const CronJob = require('cron').CronJob
+const http = require('http')
 
 const job = new CronJob({
   cronTime: '00 30 19 * * *', // UTC timezone
@@ -13,27 +12,14 @@ const job = new CronJob({
   start: true
 })
 
-function rateExchangeScraperJob() {
-  scraper.getUsdBidAndAskRate().then(syncedRate => {
-    rateRepository.findLast().then(storedRate => {
-      if (!storedRate) {
-        return
-      }
+const server = http.createServer(function (request, response) {
+  response.end('Exchange Rate Manager is running...')
+})
 
-      let rateChangingType = 0
-      if (storedRate.bid < syncedRate.bid) {
-        rateChangingType = 1
-      }
+server.listen(config.PORT, function (error) {
+  if (error) {
+    return console.log(err)
+  }
 
-      rateEmailSender.send(syncedRate, rateChangingType)
-    }).catch(err => {
-      console.log(err)
-    })
-
-    rateRepository.updateOrInsert(syncedRate).catch(err => {
-      console.log(err)
-    })
-  }).catch(err => {
-    console.log(err)
-  })
-}
+  console.log(`Server is listening on ${config.PORT}.`)
+})
