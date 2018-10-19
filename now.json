@@ -5,6 +5,6 @@
         "MONGO_DB": "@mongo-db",
         "MONGO_USER": "@mongo-user",
         "MONGO_PASS": "@mongo-pass",
-        "PORT": 8080
+        "PORT": "8080"
     }
 }
