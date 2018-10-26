@@ -1,1 +1,1 @@
-# exchange_rate_manager
+# Manager for Mastercard dollar exchange rate
