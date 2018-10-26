@@ -4,7 +4,7 @@ const rateExchangeScraperJob = require('./rate-exchange-scraper-job')
 const config = require('./config')
 
 const job = new CronJob({
-  cronTime: '00 30 20 * * 1-5', // UTC timezone
+  cronTime: '00 30 21 * * 1-5', // UTC timezone
   onTick () {
     console.log('Job is running...')
     rateExchangeScraperJob()
